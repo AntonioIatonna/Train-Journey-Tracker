@@ -4,6 +4,8 @@ from journeys import insert_journey, fetch_all_journeys
 from db import get_connection
 from operators import fetch_operators, get_or_create_operator
 from stations import fetch_stations, get_or_create_station
+from streamlit_folium import st_folium
+from map import createMap, loadGPXPoints
 
 st.set_page_config(page_title="Train Journeys", layout="wide")
 
@@ -108,8 +110,7 @@ if menu == "Add Journey":
 else:
     st.header("My Journeys")
     journeys = fetch_all_journeys()
-    # st.dataframe(journeys)
-    journeys = fetch_all_journeys()
+
     for j in journeys:
         with st.expander(
             f"{j['journeyDate']} — {j['originStation']} → {j['destinationStation']} ({j['operator']})"
@@ -125,3 +126,6 @@ else:
     **Notes:**  
     {j['notes'] or ""}
     """)
+            
+    journey_map = createMap(journeys)
+    st_folium(journey_map, use_container_width=True, height=600)

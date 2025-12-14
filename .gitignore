@@ -1,3 +1,4 @@
 .env
 gpx_files/
 help.txt
+__pycache__/

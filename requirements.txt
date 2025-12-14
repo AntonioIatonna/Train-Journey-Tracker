@@ -1,0 +1,6 @@
+streamlit
+mariadb
+python-dotenv
+gpxpy
+folium
+streamlit-folium
