@@ -31,6 +31,8 @@ CREATE TABLE journeys (
 
     notes TEXT,
 
+    dayOrder INT NULL, -- order of the day for multi-day journeys
+
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (operator) REFERENCES operators(id), -- sets up foreign key relationship with operators table

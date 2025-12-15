@@ -78,7 +78,9 @@ def fetch_all_journeys():
         LEFT JOIN journey_stops js ON j.id = js.journeyID
         LEFT JOIN stations s_stop ON js.stationID = s_stop.id
         GROUP BY j.id
-        ORDER BY j.journeyDate DESC
+        ORDER BY j.journeyDate DESC, 
+                COALESCE(j.dayOrder, 9999) DESC,
+                j.id DESC
     """)
 
     rows = cur.fetchall()

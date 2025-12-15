@@ -26,17 +26,26 @@ def createMap(journeys):
 
     bounds = []
 
+    gpx_cache = {}
+
     for j in journeys:
-        if not j.get("gpxPath"):
+        gpx_path = j.get("gpxPath")
+
+        if not gpx_path:
             continue
 
-        try:
-            points = loadGPXPoints(j["gpxPath"])
-        except Exception:
-            continue  # Skip broken GPX files safely
+        if gpx_path not in gpx_cache:
+            try:
+                points = loadGPXPoints(gpx_path)
+            except Exception:
+                continue
 
-        if not points:
-            continue
+            if not points:
+                continue
+
+            gpx_cache[gpx_path] = points
+        else:
+            points = gpx_cache[gpx_path]
 
         folium.PolyLine(
             points,
@@ -46,7 +55,6 @@ def createMap(journeys):
 
         bounds.extend(points)
 
-    # Auto-fit map to all routes
     if bounds:
         m.fit_bounds(bounds)
 
